@@ -10,6 +10,8 @@ on:
     branches: [ "main" ]
     paths-ignore:
       - "README.md"
+    tags:
+      - "v*.*.*"
 
 permissions:
   contents: read
@@ -29,15 +31,6 @@ jobs:
       run: |
         chmod +x ./gradlew
         ./gradlew build
-
-    - name: Tag repository
-      run: git tag -a v1.0.0 -m "Version 1.0.0"  # Replace with your desired version and message
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    - name: Push tag to GitHub
-      run: git push origin --tags
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
